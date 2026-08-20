@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Examples/Pretty Scene Forest 2.unity
     guid: 4f6c7eb49080e2744b54fc811aee0cdb
   - enabled: 1
-    path: Assets/Scenes/Test/Pretty Scene Forest - Geometric.unity
+    path: Assets/Scenes/Examples/Pretty Scene Forest - Geometric.unity
     guid: 9efecc197b78837468eb035ff8a966c5
   m_configObjects: {}

@@ -9,10 +9,10 @@
 
 ### Instructions
 
-Clone the main project from [GitHub](https://github.com/Virtual-Humans-Lab/VisionCrowds)
+Clone the main project from [GitHub](https://github.com/Julia-Melgare/gaze-for-locomotion)
 
 ```bash
-git clone https://github.com/Virtual-Humans-Lab/VisionCrowds
+git clone https://github.com/Julia-Melgare/gaze-for-locomotion
 ```
 
 Install CUDA 10 from [here](https://developer.nvidia.com/cuda-10.0-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exenetwork) - Make sure to choose “Custom Installation” and deselect any other options except the actual CUDA drivers.
@@ -49,9 +49,14 @@ pip install -r Assets/PythonServer_ImageSal/requirements.txt
 
 Install OpenCV for Python as explained [here](https://docs.opencv.org/4.x/d5/de5/tutorial_py_setup_in_windows.html) in the session “**Installing OpenCV from prebuilt binaries”.**
 
-Prior to running the project in Unity, start the Python server in a separate terminal:
+Prior to running the project in Unity, start the Static Image Saliency Python server in a separate terminal:
 
 ```powershell
-python Assets/PythonServer/main.py
+python Assets/PythonServer_ImageSal/main.py
 ```
 
+To use the Image-based Motion Saliency estimation, also run the separate Pyhton server for that:
+
+```powershell
+python Assets/PythonServer_MotionSal/main.py
+```

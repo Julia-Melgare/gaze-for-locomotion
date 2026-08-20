@@ -1,5 +1,7 @@
 # Simulating Gaze and Visual Attention of Walking Characters in Dynamic Environments
 
+This repository contains the implementation of our Geometric and Image-based Motion Saliency Estimation approaches, Static Image-based Saliency Estimation, Drift Diffusion Model Attention Algorithm and Softmax Attention Algorithm. The Template Matching and navigation solution will be integrated into this repository soon, but source code for this part can be seen [here](https://github.com/Virtual-Humans-Lab/VisionCrowds).
+
 ### Requirements
 
 - Unity 2021.3.8f1

@@ -1,3 +1,4 @@
+import sys
 import cv2
 import zmq
 import numpy as np
@@ -236,28 +237,39 @@ def prepare_response(detections):
         res += f"{{\"id\": {obj.id}, \"centroid\": {list(obj.centroid)}, \"score\":{obj.motion_saliency_score}}}\n"
     return res
 
-context = zmq.Context()
-socket = context.socket(zmq.REP)
-socket.bind("tcp://*:5556")
 
-my_tracker = Tracker(max_age=3, min_hits=3, dist_threshold=15)
-motion_sal_estim = MotionSaliencyEstimator()
-detections = []
+def run(port = "5556"):
+    context = zmq.Context()
+    socket = context.socket(zmq.REP)
+    socket.bind("tcp://*:" + port)
 
-while True:
-    #receive image bytes
-    bytes_received = socket.recv(102400)
-    nparr = np.fromstring(bytes_received, np.uint8)
-    image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    _, mask = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
-    merged_labels, merged_stats = merge_close_components(mask, merge_dist=15.0)
-    # update tracker
-    detections = my_tracker.update(merged_stats)
-    # process OF related stuff
-    motion_sal_estim.update_motion_saliency(image, detections)
-    #return response
-    response = prepare_response(detections)
-    print(response)
-    print("sending response...")
-    socket.send_string(response)
+    my_tracker = Tracker(max_age=3, min_hits=3, dist_threshold=15)
+    motion_sal_estim = MotionSaliencyEstimator()
+    detections = []
+
+    while True:
+        #receive image bytes
+        bytes_received = socket.recv(102400)
+        nparr = np.fromstring(bytes_received, np.uint8)
+        image = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        _, mask = cv2.threshold(gray, 1, 255, cv2.THRESH_BINARY)
+        merged_labels, merged_stats = merge_close_components(mask, merge_dist=15.0)
+        # update tracker
+        detections = my_tracker.update(merged_stats)
+        # process OF related stuff
+        motion_sal_estim.update_motion_saliency(image, detections)
+        #return response
+        response = prepare_response(detections)
+        print(response)
+        print("sending response...")
+        socket.send_string(response)
+
+def main():
+    args = sys.argv[1:]
+    if (len(args) == 2) and args[0] in ['-p', '-port']:
+        run(port = args[1])
+    else:
+        run()
+
+main()
